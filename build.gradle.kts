@@ -17,16 +17,9 @@ tasks.jar {
 
 val groupId = "com.github.vtluan191123"
 val artifactId = "test_lib"
-val versionLib = "1.0.1"
+val version  = "1.0.0"
 
 group = groupId
-version = versionLib
-
-java {
-	toolchain {
-		languageVersion.set(JavaLanguageVersion.of(17))
-	}
-}
 
 repositories {
 	mavenCentral()
@@ -43,6 +36,9 @@ publishing {
 	publications {
 		create<MavenPublication>("mavenJava") {
 			from(components["java"])
+			groupId = groupId   // Sử dụng biến cho groupId
+			artifactId = artifactId  // Sử dụng biến cho artifactId
+			version = version  // Sử dụng biến cho version
 		}
 	}
 	repositories {
