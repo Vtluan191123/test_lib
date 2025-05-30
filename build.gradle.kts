@@ -12,22 +12,20 @@ tasks.bootJar {
 
 tasks.jar {
 	enabled = true
-	archiveClassifier = ""
+	archiveClassifier.set("")
 }
 
 val groupId = "com.github.vtluan191123"
 val artifactId = "test_lib"
-val version = "1.0.0"
+val versionLib = "1.0.1"
 
 group = groupId
-this.version = version
+version = versionLib
 
 java {
 	toolchain {
 		languageVersion.set(JavaLanguageVersion.of(17))
 	}
-	withSourcesJar()
-	withJavadocJar()
 }
 
 repositories {
@@ -41,31 +39,20 @@ dependencies {
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
-tasks.withType<Test> {
-	useJUnitPlatform()
-}
-
 publishing {
 	publications {
 		create<MavenPublication>("mavenJava") {
 			from(components["java"])
-			groupId = groupId
-			artifactId = artifactId
-			version = version
 		}
 	}
 	repositories {
-		// Thường không cần cấu hình repository này nếu chỉ dùng JitPack (JitPack tự build)
-		// Nhưng bạn có thể để nếu cần publish trực tiếp
 		maven {
 			url = uri("https://jitpack.io")
 		}
 	}
 }
 
-tasks.javadoc {
-	options {
-		// Tắt cảnh báo thiếu javadoc khi build
-		(this as StandardJavadocDocletOptions).addStringOption("Xdoclint:all,-missing", "-quiet")
-	}
+
+tasks.withType<Test> {
+	useJUnitPlatform()
 }
